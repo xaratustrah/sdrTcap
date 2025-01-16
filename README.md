@@ -5,9 +5,7 @@ Time Series Capture System based on Software Defined Radios
 <img src="https://raw.githubusercontent.com/xaratustrah/sdrTcap/master/rsrc/sdrTcap.jpg" width="512">
 </div>  
 
-*sdrTcap* is a collection of code based on [GNURadio4](https://github.com/fair-acc/gnuradio4) for accessing and processing digitised signals from [Software Defined Radio (SDR)](https://de.wikipedia.org/wiki/Software_Defined_Radio).
-
-The current version works with LIME SDR and is based on the Soapy driver integration inside the GR4.
+*sdrTcap* is a collection of code based on [GNURadio4](https://github.com/fair-acc/gnuradio4) for accessing and processing digitised signals from [Software Defined Radio (SDR)](https://de.wikipedia.org/wiki/Software_Defined_Radio). The current version aims at working with [LIME SDR](https://limemicro.com/boards/limesdr/) and is based on the [SoapySDR](https://github.com/pothosware/SoapySDR/wiki) integration inside the GR4.
 
 ## sdr2file
 

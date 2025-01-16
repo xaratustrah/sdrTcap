@@ -9,4 +9,4 @@ This work is licensed under multiple licenses:
 - The documentation are licensed under [CC-BY-4.0](LICENSES/CC-BY-4.0.txt).
 - Insignificant files are licensed under [CC0-1.0](LICENSES/CC0-1.0.txt).
 
-Please see the individual files for more accurate information.
+Please see the individual files for more accurate information..
