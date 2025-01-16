@@ -1,3 +1,9 @@
+//
+// Adapted from the original soapy example in the GR4
+// Authors: Ralph Steinhagen https://github.com/RalphSteinhagen
+//          and Matthias Kretz  https://github.com/mattkretz
+//
+
 #include <boost/ut.hpp>
 
 #include <algorithm>
