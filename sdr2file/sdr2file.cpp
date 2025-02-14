@@ -1,7 +1,6 @@
 //
 // Adapted from the original soapy example in the GR4
-// Authors: Ralph Steinhagen https://github.com/RalphSteinhagen
-//          and Matthias Kretz  https://github.com/mattkretz
+// https://github.com/fair-acc/gnuradio4/blob/main/blocks/soapy/src/soapy_example.cpp
 //
 
 #include <boost/ut.hpp>
