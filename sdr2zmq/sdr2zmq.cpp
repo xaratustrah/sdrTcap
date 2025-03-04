@@ -1,3 +1,11 @@
+//
+// SDR2ZMQ
+// Inspired by the original soapy example in the GR4
+// https://github.com/fair-acc/gnuradio4/blob/main/blocks/soapy/src/soapy_example.cpp
+//
+// (2025) xaratustrah@github
+//
+
 #include <boost/ut.hpp>
 #include <spdlog/spdlog.h>
 #include <string>
@@ -7,10 +15,7 @@
 #include <gnuradio-4.0/zeromq/Zmq.hpp>
 #include <gnuradio-4.0/testing/NullSources.hpp>
 
-// Define a constant buffer size
-const std::size_t BUFFER_SIZE = 2048;
-
-gr::Graph createGraph(std::string zmqPubAddr1, std::string zmqPubAddr2, float sampleRate, double rxCenterFrequency, double bandwidth, double rxGains) {
+gr::Graph createGraph(std::string zmqPubAddr1, std::string zmqPubAddr2, float sampleRate, double rxCenterFrequency, double bandwidth, double rxGains, std::size_t bufferSize) {
     using namespace boost::ut;
     using namespace gr;
     using namespace gr::blocks::soapy;
@@ -19,7 +24,7 @@ gr::Graph createGraph(std::string zmqPubAddr1, std::string zmqPubAddr2, float sa
     Graph flow;
     using TDataType = std::complex<float>;
 
-    // Create source block with specified buffer size
+    // Create source block with dynamic buffer size
     auto& source = flow.emplaceBlock<SoapyBlock<TDataType, 2UZ>>({
         {"device", "lime"},                                                                 //
         {"sample_rate", sampleRate},                                                        //
@@ -28,7 +33,7 @@ gr::Graph createGraph(std::string zmqPubAddr1, std::string zmqPubAddr2, float sa
         {"rx_center_frequency", std::vector<double>{rxCenterFrequency, rxCenterFrequency}}, //
         {"rx_bandwidth", std::vector<double>{bandwidth, bandwidth}},                        //
         {"rx_gains", std::vector<double>{rxGains, rxGains}},                                //
-        {"buffer_size", BUFFER_SIZE}                                                        // Specify buffer size
+        {"buffer_size", bufferSize}                                                         // Use buffer size parameter
     });
     spdlog::info("set parameter: sample_rate: {} SP/s, rx_center_frequency: {} Hz, rx_bandwidth: {} Hz, rx_gains: {} dB", //
                  sampleRate, rxCenterFrequency, bandwidth, rxGains);
@@ -36,13 +41,13 @@ gr::Graph createGraph(std::string zmqPubAddr1, std::string zmqPubAddr2, float sa
     if (zmqPubAddr1.contains("null")) {
         spdlog::info("write channel0 to NullSink");
         auto& zmqSink1 = flow.emplaceBlock<testing::NullSink<TDataType>>();
-        zmqSink1.set_output_multiple(BUFFER_SIZE); // Set buffer size for NullSink
+        zmqSink1.set_output_multiple(bufferSize); // Set buffer size for NullSink
         expect(eq(gr::ConnectionResult::SUCCESS, flow.connect<"out0">(source).to<"in">(zmqSink1))) << "error connecting NullSink1";
     } else {
         spdlog::info("write to ZMQ PUB address: {}", zmqPubAddr1);
         auto& zmqSink1 = flow.emplaceBlock<ZmqPubSink<TDataType>>({
             {"addr", zmqPubAddr1}, 
-            {"buffer_size", BUFFER_SIZE} // Specify buffer size for ZMQ sink
+            {"buffer_size", bufferSize} // Use buffer size parameter
         });
         expect(eq(gr::ConnectionResult::SUCCESS, flow.connect<"out0">(source).to<"in">(zmqSink1))) << "error connecting ZmqPubSink1";
     }
@@ -50,13 +55,13 @@ gr::Graph createGraph(std::string zmqPubAddr1, std::string zmqPubAddr2, float sa
     if (zmqPubAddr2.contains("null")) {
         spdlog::info("write channel1 to NullSink");
         auto& zmqSink2 = flow.emplaceBlock<testing::NullSink<TDataType>>();
-        zmqSink2.set_output_multiple(BUFFER_SIZE); // Set buffer size for NullSink
+        zmqSink2.set_output_multiple(bufferSize); // Set buffer size for NullSink
         expect(eq(gr::ConnectionResult::SUCCESS, flow.connect<"out1">(source).to<"in">(zmqSink2))) << "error connecting NullSink2";
     } else {
         spdlog::info("write to ZMQ PUB address: {}", zmqPubAddr2);
         auto& zmqSink2 = flow.emplaceBlock<ZmqPubSink<TDataType>>({
             {"addr", zmqPubAddr2}, 
-            {"buffer_size", BUFFER_SIZE} // Specify buffer size for ZMQ sink
+            {"buffer_size", bufferSize} // Use buffer size parameter
         });
         expect(eq(gr::ConnectionResult::SUCCESS, flow.connect<"out1">(source).to<"in">(zmqSink2))) << "error connecting ZmqPubSink2";
     }
@@ -79,8 +84,9 @@ int main(int argc, char* argv[]) {
         double rxCenterFrequency = 2.4e9;
         double bandwidth = 1e6;
         double rxGains = 50.0;
+        std::size_t bufferSize = 2048; // Define buffer size to pass to createGraph
 
-        auto graph = createGraph(zmqPubAddr1, zmqPubAddr2, sampleRate, rxCenterFrequency, bandwidth, rxGains);
+        auto graph = createGraph(zmqPubAddr1, zmqPubAddr2, sampleRate, rxCenterFrequency, bandwidth, rxGains, bufferSize);
 
         gr::Scheduler scheduler;
         scheduler.run(graph);
