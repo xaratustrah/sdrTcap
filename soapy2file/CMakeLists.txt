@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
-project(sdr2file)
+project(soapy2file)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add executable
-add_executable(sdr2file sdr2file.cpp)
+add_executable(soapy2file soapy2file.cpp)
 
 # Find and include Boost
 find_package(Boost REQUIRED)
@@ -25,7 +25,7 @@ find_package(GnuradioComponents REQUIRED Scheduler fileio soapy testing)
 include_directories(${GnuradioComponents_INCLUDE_DIRS})
 
 # Link libraries
-target_link_libraries(sdr2file
+target_link_libraries(soapy2file
     ${Boost_LIBRARIES}
     fmt::fmt
     ${GNURadio_LIBRARIES}
@@ -33,4 +33,4 @@ target_link_libraries(sdr2file
 )
 
 # Add any other necessary libraries
-# target_link_libraries(sdr2file <other_libraries>)
+# target_link_libraries(soapy2file <other_libraries>)
