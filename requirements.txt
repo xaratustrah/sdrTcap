@@ -1,6 +1,6 @@
 argparse
 toml
 numpy
-rtlsdr
+pyrtlsdr
 tqdm
 loguru
