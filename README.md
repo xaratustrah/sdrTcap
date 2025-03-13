@@ -41,6 +41,22 @@ then restart `udev`:
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 ```
+#### Rest of the Code
+
+Finally continue with:
+
+```
+pip3 install -r requirements.txt
+pip3 install .
+```
+
+#### Uninstall
+
+For uninstalling you can type:
+
+```
+pip3 uninstall sdrTcap
+```
 
 ## soapy2file
 
