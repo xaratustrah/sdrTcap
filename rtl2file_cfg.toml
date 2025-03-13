@@ -1,0 +1,10 @@
+[file_config]
+file_path = "samples"
+file_size = 50  # in MB
+lframe = 2048  # length of frame in samples
+
+[sdr_config]
+sample_rate = 2.048e6  # in Hz
+center_freq = 100e6  # in Hz
+freq_correction = 60  # in PPM
+gain = "auto"
