@@ -5,27 +5,49 @@ Time Series Capture System based on Software Defined Radios
 <img src="https://raw.githubusercontent.com/xaratustrah/sdrTcap/master/rsrc/sdrTcap.jpg" width="512">
 </div>  
 
-*sdrTcap* is a collection of code based on [GNURadio4](https://github.com/fair-acc/gnuradio4) for accessing and processing digitised signals from [Software Defined Radio (SDR)](https://de.wikipedia.org/wiki/Software_Defined_Radio). The current version aims at working with [LIME SDR](https://limemicro.com/boards/limesdr/) and is based on the [SoapySDR](https://github.com/pothosware/SoapySDR/wiki) integration inside the GR4.
+*sdrTcap* is a collection of code for long term capturing of RF signals using software defined radio and storing them continously on the hard disk. It has been tested using NESDR-Mini-2+, NESDR Nano 2 and NESDR SMArt v5. More info about these devices can be found on the [NooELEC website](https://support.nooelec.com/hc/en-us/articles/360005805834-NESDR-Series).
 
-## sdr2file
 
-This code is taken over from the examples available on the GR4 repositors. The [original version](https://raw.githubusercontent.com/fair-acc/gnuradio4/refs/heads/main/blocks/soapy/src/soapy_example.cpp) can be found on the [GR4 repository](https://github.com/fair-acc/gnuradio4/tree/main).
+## rtl2file
 
-## sdr2zmq
+This is a pure python code that utilizes the RTL-SDR driver.
 
-This is a variation of the code above, but instead of writing to file, it continiously reads the SDR device to a ZMQ socket.
 
-## Licensing
+#### Installation
 
-Please see the file [LICENSE.md](./LICENSE.md) for further information about how the content is licensed.
+Before you install this code, make sure the driver is installed on your system:
 
-## Acknowledgements
+```
+sudo apt install -y rtl-sdr
+```
 
-This code is based on a previous work by Ralph Steinhagen [RalphSteinhagen@GitHUB](https://github.com/RalphSteinhagen), Alexander Krimm [wirew0rm@GitHUB](https://github.com/wirew0rm) and many others from the GNURadio team.
+You should be able to use the device as a normal user. If you have permission problems, please follow the instructions available [on this site](https://pysdr.org/content/rtlsdr.html#rtl-sdr-background). In short:
 
-## Installation
+first find out the vendor ID of your device using `lsusb`, which will look something like this:
 
-### Preparation
+```
+Bus 003 Device 017: ID 0bda:2838 Realtek Semiconductor Corp. RTL2838 DVB-T
+```
+
+then you create a file `/etc/udev/rules.d/10-rtl-sdr.rules` with the content from the vendor ID:
+
+```
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="2838", MODE="0666"
+```
+
+then restart `udev`:
+
+```
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
+
+## soapy2file
+
+This code is like the above, with the difference - as the name suggests - of using the Soapy driver. This code is taken over from the examples available on the GR4 repositors. The [original version](https://raw.githubusercontent.com/fair-acc/gnuradio4/refs/heads/main/blocks/soapy/src/soapy_example.cpp) can be found on the [GR4 repository](https://github.com/fair-acc/gnuradio4/tree/main). It is based on [GNURadio4](https://github.com/fair-acc/gnuradio4) for accessing and processing digitised signals from [Software Defined Radio (SDR)](https://de.wikipedia.org/wiki/Software_Defined_Radio). The current version aims at working with [LIME SDR](https://limemicro.com/boards/limesdr/) and is based on the [SoapySDR](https://github.com/pothosware/SoapySDR/wiki) integration inside the GR4.
+
+#### Installation
+
 Starting from a fresh image / ubuntu:
 
 ```
@@ -52,8 +74,8 @@ you can also update the card by doing `sudo LimeUtil --update`, but this is not 
 
 At this point, you sould also be able to use [GQRX](https://www.gqrx.dk/) which is a very nice code.
 
-### Compilation
-Steps:
+
+Compilation steps:
 
 ```
 mkdir build
@@ -62,6 +84,13 @@ cmake -G Ninja -DCMAKE_C_COMPILER=clang-18 -DCMAKE_CXX_COMPILER=clang++-18 -DCMA
 ninja
 ```
 
+#### Docker image
 
+TBD
+
+
+## Licensing
+
+Please see the file [LICENSE.md](./LICENSE.md) for further information about how the content is licensed.
 
 
