@@ -8,7 +8,6 @@
 import argparse
 import toml
 from rtlsdr import RtlSdr
-import numpy as np
 import os
 import signal
 import sys
