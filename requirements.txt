@@ -1,0 +1,6 @@
+argparse
+toml
+numpy
+rtlsdr
+tqdm
+loguru
