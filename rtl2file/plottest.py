@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Plot spectrum of binary files')
     parser.add_argument('files', nargs='+', help='List of binary files to process')
-    parser.add_argument('--output', type=str, default='spectrum.png', help='Output PNG file name prefix')
+    parser.add_argument('--output', type=str, default='./', help='Output PNG file name prefix')
     parser.add_argument('--sample-rate', type=float, required=True, help='Sample rate used during the recording')
     return parser.parse_args()
 
