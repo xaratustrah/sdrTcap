@@ -2,7 +2,7 @@
 # simple tester for plotting data files
 #
 # usage:
-# python plottest.py file1.bin file2.bin --sample-rate 2.4e6 --output spectrumfilename
+# python plottest.py --sample-rate 2.4e6 --output path file1.bin file2.bin 
 #
 
 import argparse
