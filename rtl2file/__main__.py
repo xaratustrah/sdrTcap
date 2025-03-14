@@ -106,7 +106,7 @@ def main():
     try:
         pbar = progress_bar(total=max_file_size, unit='B', unit_scale=True, desc=f'Writing file {file_number:08d}.bin')
         while True:
-            samples = sdr.read_samples(lframe)
+            samples = sdr.read_samples(lframe) # read samples are float64
             samples_bytes = samples.tobytes()
 
             if file_size + len(samples_bytes) > max_file_size:
@@ -116,7 +116,7 @@ def main():
                 pbar = progress_bar(total=max_file_size, unit='B', unit_scale=True, desc=f'Writing file {file_number:08d}.bin')
                 #logger.info(f'Starting new file: {file_number:08d}.bin')
 
-            write_samples_to_file(samples, file_number, output_dir)
+            write_samples_to_file(samples, file_number, output_dir) # writes float64 to files
             file_size += len(samples_bytes)
             update_progress(pbar)
 
