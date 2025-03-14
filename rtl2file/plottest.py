@@ -8,11 +8,12 @@
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.signal import spectrogram
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Plot spectrum of binary files')
     parser.add_argument('files', nargs='+', help='List of binary files to process')
-    parser.add_argument('--output', type=str, default='.', help='Output PNG file name prefix')
+    parser.add_argument('--output', type=str, default='.', help='Path prefix for output PNG')
     parser.add_argument('--sample-rate', type=float, required=True, help='Sample rate used during the recording')
     return parser.parse_args()
 
@@ -22,10 +23,11 @@ def read_binary_file(file_name):
     return data
 
 def plot_spectrum(data, sample_rate, output_file):
+    f, t, Sxx = spectrogram(data, fs=sample_rate, nperseg=1024, noverlap=900)
     plt.figure()
-    plt.specgram(data, NFFT=1024, Fs=sample_rate, noverlap=900)
-    plt.xlabel('Time (s)')
+    plt.pcolormesh(t, f, 10 * np.log10(Sxx), shading='gouraud')
     plt.ylabel('Frequency (Hz)')
+    plt.xlabel('Time (s)')
     plt.title('Spectrum')
     plt.colorbar(label='Intensity (dB)')
     plt.savefig(output_file)
