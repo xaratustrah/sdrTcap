@@ -14,15 +14,15 @@ set(INCLUDE_DIRS
     /tmp/gnuradio4/algorithm/include
     /tmp/gnuradio4/core/include
     /tmp/gnuradio4/meta/include
-    /tmp/gnuradio4/block/basic/include
-    /tmp/gnuradio4/block/electrical/include
-    /tmp/gnuradio4/block/fileio/include
-    /tmp/gnuradio4/block/filter/include
-    /tmp/gnuradio4/block/fourier/include
-    /tmp/gnuradio4/block/http/include
-    /tmp/gnuradio4/block/math/include
-    /tmp/gnuradio4/block/soapy/include
-    /tmp/gnuradio4/block/testing/include
+    /tmp/gnuradio4/blocks/basic/include
+    /tmp/gnuradio4/blocks/electrical/include
+    /tmp/gnuradio4/blocks/fileio/include
+    /tmp/gnuradio4/blocks/filter/include
+    /tmp/gnuradio4/blocks/fourier/include
+    /tmp/gnuradio4/blocks/http/include
+    /tmp/gnuradio4/blocks/math/include
+    /tmp/gnuradio4/blocks/soapy/include
+    /tmp/gnuradio4/blocks/testing/include
     /tmp/gnuradio4/build/core/include
     /tmp/gnuradio4/build/core/src
 )
