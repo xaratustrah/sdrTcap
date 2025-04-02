@@ -8,12 +8,28 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Add executable
 add_executable(soapy2file soapy2file.cpp)
 
-#add_library(soapy2core INTERFACE)
+set(INCLUDE_DIRS 
+    /usr/local/include 
+    /usr/include 
+    /tmp/gnuradio4/algorithm/include
+    /tmp/gnuradio4/core/include
+    /tmp/gnuradio4/meta/include
+    /tmp/gnuradio4/block/basic/include
+    /tmp/gnuradio4/block/electrical/include
+    /tmp/gnuradio4/block/fileio/include
+    /tmp/gnuradio4/block/filter/include
+    /tmp/gnuradio4/block/fourier/include
+    /tmp/gnuradio4/block/http/include
+    /tmp/gnuradio4/block/math/include
+    /tmp/gnuradio4/block/soapy/include
+    /tmp/gnuradio4/block/testing/include
+)
+include_directories(${INCLUDE_DIRS})
 
 #Link gnuradio-core in system path
 find_library(GR_CORE NAMES gnuradio-core PATHS /usr/local/lib)
 if(GR_CORE)
-    #target_link_libraries(soapy2file PRIVATE ${GR_CORE})
+    #nothing
 else()
     message(FATAL_ERROR "gnuradio-core not found! Please check installation of gnuradio4!")
 endif()
@@ -55,6 +71,8 @@ FetchContent_MakeAvailable(
   vir-simd
   cpp-httplib)
 
+
+
 add_library(pmtv INTERFACE)
 target_include_directories(pmtv INTERFACE ${pmt_SOURCE_DIR}/include/)
 target_link_libraries(pmtv INTERFACE)
@@ -69,6 +87,11 @@ find_package(fmt REQUIRED)
 include_directories(${fmt_INCLUDE_DIRS})
 
 find_package(SoapySDR CONFIG REQUIRED)
+if (TARGET SoapySDR)
+    #nothing
+else ()
+    message(FATAL_ERROR "SoapySDR development files not found: ${SoapySDR_FOUND}")
+endif ()
 
 target_include_directories(soapy2file PRIVATE ${cpp-httplib_SOURCE_DIR})
 
@@ -178,7 +201,7 @@ target_link_directories(
 add_dependencies(fftw fftw_ext)
 
 target_link_libraries(soapy2file 
-  PRIVATE ${GR_CORE}
+  PUBLIC ${GR_CORE}
           ut-benchmark
           fftw
           magic_enum
@@ -187,4 +210,3 @@ target_link_libraries(soapy2file
           ut
           vir-simd
           SoapySDR)
-
