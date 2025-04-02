@@ -23,6 +23,7 @@ set(INCLUDE_DIRS
     /tmp/gnuradio4/block/math/include
     /tmp/gnuradio4/block/soapy/include
     /tmp/gnuradio4/block/testing/include
+    /tmp/gnuradio4/build/core/include
 )
 include_directories(${INCLUDE_DIRS})
 
