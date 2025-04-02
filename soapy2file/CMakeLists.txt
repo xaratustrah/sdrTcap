@@ -24,6 +24,7 @@ set(INCLUDE_DIRS
     /tmp/gnuradio4/block/soapy/include
     /tmp/gnuradio4/block/testing/include
     /tmp/gnuradio4/build/core/include
+    /tmp/gnuradio4/build/core/src
 )
 include_directories(${INCLUDE_DIRS})
 
