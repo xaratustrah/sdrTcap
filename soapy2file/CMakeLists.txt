@@ -6,7 +6,18 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add executable
+
 add_executable(soapy2file soapy2file.cpp)
+
+#Copy third party file from GR4 in docker
+
+file(COPY /tmp/gnuradio4/bench
+     DESTINATION /tmp/sdrTcap/soapy2file)
+
+file(COPY /tmp/gnuradio4/third_party
+     DESTINATION /tmp/sdrTcap/soapy2file)   
+
+#Find header files from GR4 path in docker image
 
 set(INCLUDE_DIRS 
     /usr/local/include 
@@ -29,6 +40,7 @@ set(INCLUDE_DIRS
 include_directories(${INCLUDE_DIRS})
 
 #Link gnuradio-core in system path
+
 find_library(GR_CORE NAMES gnuradio-core PATHS /usr/local/lib)
 if(GR_CORE)
     #nothing
